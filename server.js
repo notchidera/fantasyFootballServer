@@ -40,6 +40,6 @@ app.all('*', (req, res, next) => {
 
 app.use(ErrorController.globalErrorHandler);
 
-app.listen(process.env.PORT);
+app.listen();
 
 connectDb();
