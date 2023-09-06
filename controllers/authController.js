@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { User } from '../models/userModel.js';
 import { AppError } from '../utilities.js';
 import { sendEmail } from '../utilities.js';
+import { frontEndUrl } from '../server.js';
 
 const signToken = (id) => {
 	return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -17,7 +18,7 @@ const createSendToken = (user, statusCode, res) => {
 		expires: new Date(
 			Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
 		),
-		domain: '.onrender.com',
+		origin: 'https://fantasquadbuilder.onrender.com/',
 		secure: true,
 		httpOnly: true,
 		sameSite: 'none',

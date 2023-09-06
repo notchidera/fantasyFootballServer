@@ -12,7 +12,7 @@ import cookieParser from 'cookie-parser';
 
 const app = express();
 //const frontEndUrl = 'http://localhost:3000'
-const frontEndUrl = 'https://fantasquadbuilder.onrender.com';
+export const frontEndUrl = 'https://fantasquadbuilder.onrender.com';
 
 dotenv.config({ path: './config/config.env' });
 
@@ -42,4 +42,4 @@ app.use(ErrorController.globalErrorHandler);
 
 app.listen();
 
-connectDb();
+connectDb(process.env.PORT);
