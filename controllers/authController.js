@@ -19,6 +19,7 @@ const createSendToken = (user, statusCode, res) => {
 		),
 		secure: true,
 		httpOnly: true,
+		sameSite: 'none',
 	};
 	user.password = undefined;
 
