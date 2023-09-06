@@ -11,10 +11,12 @@ import connectDb from './config/db.js';
 import cookieParser from 'cookie-parser';
 
 const app = express();
+//const frontEndUrl = 'http://localhost:3000'
+const frontEndUrl = 'https://fantasquadbuilder.onrender.com';
 
 dotenv.config({ path: './config/config.env' });
 
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
+app.use(cors({ credentials: true, origin: frontEndUrl }));
 
 app.use(
 	fileUpload({
