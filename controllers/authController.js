@@ -18,7 +18,7 @@ const createSendToken = (user, statusCode, res) => {
 		expires: new Date(
 			Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
 		),
-		origin: 'https://fantasquadbuilder.onrender.com/',
+		origin: frontEndUrl,
 		secure: true,
 		httpOnly: true,
 		sameSite: 'none',
@@ -68,7 +68,12 @@ export class AuthController {
 	}
 
 	static async logout(req, res) {
-		res.cookie('jwt', '', { httpOnly: true });
+		res.cookie('jwt', '', {
+			origin: frontEndUrl,
+			secure: true,
+			httpOnly: true,
+			sameSite: 'none',
+		});
 		res.status(200).json({ status: 'success' });
 	}
 
