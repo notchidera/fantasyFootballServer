@@ -29,6 +29,7 @@ const userSchema = new mongoose.Schema(
 			},
 		},
 		budget: { type: Number, default: 500 },
+		players: { type: Number, default: 10 },
 		passwordChangedAt: Date,
 		passwordResetToken: String,
 		passwordResetExpires: Date,

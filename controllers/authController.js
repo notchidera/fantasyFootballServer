@@ -71,7 +71,6 @@ export class AuthController {
 
 	static async protect(req, res, next) {
 		try {
-			console.log(req.cookies);
 			// 	CHECK IF JWT TOKEN EXISTS
 			let token = req.cookies.jwt;
 

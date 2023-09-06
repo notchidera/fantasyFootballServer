@@ -36,7 +36,6 @@ export class TeamController {
 		try {
 			const { id } = req.params;
 			const data = await Team.findByIdAndUpdate(id, req.body, { new: true });
-			console.log(req.body);
 			res.status(200).json({ data, status: 'ok' });
 		} catch (err) {
 			next(err);
@@ -46,7 +45,6 @@ export class TeamController {
 	static async destroy(req, res, next) {
 		try {
 			const { id } = req.params;
-			console.log(id);
 			const resp = await Team.findByIdAndDelete(id);
 			res.status(200).json(resp);
 		} catch (err) {

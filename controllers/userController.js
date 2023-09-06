@@ -44,7 +44,6 @@ export class UserController {
 	static async destroy(req, res, next) {
 		try {
 			const { id } = req.params;
-			console.log(id);
 			const resp = await User.findByIdAndDelete(id);
 			res.status(200).json(resp);
 		} catch (err) {
