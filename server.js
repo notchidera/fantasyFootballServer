@@ -11,21 +11,22 @@ import connectDb from './config/db.js';
 import cookieParser from 'cookie-parser';
 
 const app = express();
-//const frontEndUrl = 'http://localhost:3000'
-export const frontEndUrl = 'https://fantasquadbuilder.onrender.com';
+export const frontEndUrl = process.env.PROD
+	? 'https://fantasquadbuilder.onrender.com'
+	: 'http://localhost:3000';
 
 dotenv.config({ path: './config/config.env' });
 
 app.use(cors({ credentials: true, origin: frontEndUrl }));
 
-app.use(
-	fileUpload({
-		useTempFiles: true,
-		safeFileNames: true,
-		preserveExtension: false,
-		tempFileDir: `./public/files/temp`,
-	})
-);
+// app.use(
+// 	fileUpload({
+// 		useTempFiles: true,
+// 		safeFileNames: true,
+// 		preserveExtension: false,
+// 		tempFileDir: `./public/files/temp`,
+// 	})
+// );
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.json({ limit: '50mb' }));
 app.use(cookieParser());
@@ -40,6 +41,6 @@ app.all('*', (req, res, next) => {
 
 app.use(ErrorController.globalErrorHandler);
 
-app.listen();
+app.listen(process.env.PORT);
 
-connectDb(process.env.PORT);
+connectDb();

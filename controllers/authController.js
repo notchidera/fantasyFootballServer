@@ -19,10 +19,14 @@ const createSendToken = (user, statusCode, res) => {
 			Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
 		),
 		origin: frontEndUrl,
-		secure: true,
+		//secure: true,
 		httpOnly: true,
-		sameSite: 'none',
+		//sameSite: 'none',
 	};
+	if (process.env.PROD) {
+		cookieOptions.secure = true;
+		cookieOptions.sameSite = 'none';
+	}
 	user.password = undefined;
 
 	res.cookie('jwt', token, cookieOptions).status(statusCode).json({
@@ -68,12 +72,18 @@ export class AuthController {
 	}
 
 	static async logout(req, res) {
-		res.cookie('jwt', '', {
+		const cookieOptions = {
 			origin: frontEndUrl,
-			secure: true,
+			//secure: true,
 			httpOnly: true,
-			sameSite: 'none',
-		});
+			//sameSite: 'none',
+		};
+
+		if (process.env.PROD) {
+			cookieOptions.secure = true;
+			cookieOptions.sameSite = 'none';
+		}
+		res.cookie('jwt', '', cookieOptions);
 		res.status(200).json({ status: 'success' });
 	}
 
