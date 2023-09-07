@@ -73,7 +73,9 @@ export class AuthController {
 
 	static async logout(req, res) {
 		const cookieOptions = {
+			expires: new Date(Date.now()),
 			origin: frontEndUrl,
+			overwrite: true,
 			//secure: true,
 			httpOnly: true,
 			//sameSite: 'none',
