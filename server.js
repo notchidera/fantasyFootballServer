@@ -11,9 +11,10 @@ import connectDb from './config/db.js';
 import cookieParser from 'cookie-parser';
 
 const app = express();
-export const frontEndUrl = process.env.PROD
-	? 'https://fantasquadbuilder.onrender.com'
-	: 'http://localhost:3000';
+export const frontEndUrl =
+	process.env.NODE_ENV === 'production'
+		? 'https://fantasquadbuilder.onrender.com'
+		: 'http://localhost:3000';
 
 dotenv.config({ path: './config/config.env' });
 

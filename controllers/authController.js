@@ -23,7 +23,7 @@ const createSendToken = (user, statusCode, res) => {
 		httpOnly: true,
 		//sameSite: 'none',
 	};
-	if (process.env.PROD) {
+	if (process.env.NODE_ENV === 'production') {
 		cookieOptions.secure = true;
 		cookieOptions.sameSite = 'none';
 	}
@@ -79,7 +79,7 @@ export class AuthController {
 			//sameSite: 'none',
 		};
 
-		if (process.env.PROD) {
+		if (process.env.NODE_ENV === 'production') {
 			cookieOptions.secure = true;
 			cookieOptions.sameSite = 'none';
 		}
