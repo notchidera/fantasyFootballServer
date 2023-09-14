@@ -17,7 +17,7 @@ export const frontEndUrl =
 		: 'http://localhost:3000';
 
 /// GETS ACCESS TO ENVIROMENT VARIABLES
-dotenv.config({ path: './config/config.env' });
+dotenv.config({ path: './config.env' });
 ///MIDDLEWARES
 
 app.use(cors({ credentials: true, origin: frontEndUrl }));
