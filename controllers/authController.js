@@ -4,13 +4,13 @@ import { User } from '../models/userModel.js';
 import { AppError } from '../utilities.js';
 import { sendEmail } from '../utilities.js';
 import { frontEndUrl } from '../server.js';
-
+/// FUNCTION THAT SIGNS A JWT TOKEN WITH CONFIGURATION INFO TAKEN FROM ENV VARIABLES
 const signToken = (id) => {
 	return jwt.sign({ id }, process.env.JWT_SECRET, {
 		expiresIn: process.env.JWT_EXPIRES_IN,
 	});
 };
-
+/// CREATES AND SEND THE TOKEN, SOME CONFIGURATIONS CHANGE BASED ON THE ENVIROMENT
 const createSendToken = (user, statusCode, res) => {
 	const token = signToken(user._id);
 
@@ -19,14 +19,13 @@ const createSendToken = (user, statusCode, res) => {
 			Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
 		),
 		origin: frontEndUrl,
-		//secure: true,
 		httpOnly: true,
-		//sameSite: 'none',
 	};
 	if (process.env.NODE_ENV === 'production') {
 		cookieOptions.secure = true;
 		cookieOptions.sameSite = 'none';
 	}
+	///SETS THE PASSWORD TO UNDEFINED TO AVOID SENDING IT TO THE CLIENT
 	user.password = undefined;
 
 	res.cookie('jwt', token, cookieOptions).status(statusCode).json({
@@ -39,6 +38,7 @@ const createSendToken = (user, statusCode, res) => {
 };
 
 export class AuthController {
+	///HANDLES SIGNUP, CREATES A USER WITH FORM DATA
 	static async signup(req, res, next) {
 		try {
 			const { email, password, passwordConfirm, budget } = req.body;
@@ -52,6 +52,7 @@ export class AuthController {
 			next(err);
 		}
 	}
+	/// HANDLES LOGIN
 	static async login(req, res, next) {
 		try {
 			const { email, password } = req.body;
@@ -70,15 +71,13 @@ export class AuthController {
 			next(err);
 		}
 	}
-
+	/// HANDLES LOGOUT UPDATING JWT TOKEN WITH AN EMPTY ONE WITH AN IMMEDIATE EXPIRATION DATE
 	static async logout(req, res) {
 		const cookieOptions = {
 			expires: new Date(Date.now()),
 			origin: frontEndUrl,
 			overwrite: true,
-			//secure: true,
 			httpOnly: true,
-			//sameSite: 'none',
 		};
 
 		if (process.env.NODE_ENV === 'production') {
@@ -88,7 +87,7 @@ export class AuthController {
 		res.cookie('jwt', '', cookieOptions);
 		res.status(200).json({ status: 'success' });
 	}
-
+	/// MIDDLEWARE THAT HANDLES PROTECTED ROUTES - CHECKS IF JWT TOKEN IS VALID
 	static async protect(req, res, next) {
 		try {
 			// 	CHECK IF JWT TOKEN EXISTS
@@ -122,6 +121,7 @@ export class AuthController {
 						)
 					);
 				}
+				/// SETS A USER OBJECT IN THE REQ THAT CONTAINS THE USERINFO, SO THAT THE NEXT MIDDLEWARE CAN ACCESS THOSE INFO (E.G. req.user._id)
 				req.user = freshUser;
 				return next();
 			} catch (err) {

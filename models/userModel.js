@@ -2,30 +2,38 @@ import mongoose from 'mongoose';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
-
+import { isValidPassword } from 'mongoose-custom-validators';
 const userSchema = new mongoose.Schema(
 	{
 		email: {
 			type: String,
-			required: [true, 'Please provide your email'],
-			unique: true,
+			required: [true, 'Occorre inserire un indirizzo email'],
+			unique: [true, 'Indirizzo email già esistente'],
 			lowercase: true,
-			validate: [validator.isEmail, 'Please provide a valid email'],
+			validate: [
+				validator.isEmail,
+				'Occorre inserire un indirizzo email valido',
+			],
 		},
 		password: {
 			type: String,
-			required: [true, 'Please provide a password'],
-			minlength: 8,
+			required: [true, 'Occorre inserire una password'],
+			minlength: [10, 'La password deve contenere almeno 10 caratteri'],
 			select: false,
+			validate: {
+				validator: isValidPassword,
+				message:
+					'La tua password deve avere almeno: 1 lettera maiuscola, 1 lettera minuscola, 1 numero e un carattere speciale',
+			},
 		},
 		passwordConfirm: {
 			type: String,
-			required: [true, 'Please confirm your password'],
+			required: [true, 'Per favore conferma la tua password'],
 			validate: {
 				validator: function (el) {
 					return el === this.password;
 				},
-				message: 'Passwords should be the same',
+				message: 'Le due password devono essere identiche',
 			},
 		},
 		budget: { type: Number, default: 500 },

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-
+/// FUNCTION THAT CONNECTS TO THE DB, URI AND PASSWORD ARE ENV VARIABLES
 const connectDb = () => {
 	const connUrl = process.env.DBURL.replace('<password>', process.env.PASSWORD);
 

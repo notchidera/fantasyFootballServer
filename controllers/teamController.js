@@ -1,6 +1,7 @@
 import { Team } from '../models/teamModel.js';
 
 export class TeamController {
+	/// GETS ALL TEAMS FOR THE CURRENT USER AND MATCHES THEM WITH THE INCLUDED PLAYERS
 	static async index(req, res, next) {
 		try {
 			const data = await Team.aggregate([
@@ -19,9 +20,7 @@ export class TeamController {
 			next(err);
 		}
 	}
-	static async filterTeam(req, res) {
-		const data = await Team.find({ ...req.body.lte });
-	}
+	/// SAVES A NEW TEAM
 	static async store(req, res, next) {
 		try {
 			const newTeam = new Team({ ...req.body, userId: req.user._id });
@@ -31,7 +30,7 @@ export class TeamController {
 			next(err);
 		}
 	}
-
+	/// UPDATES AN EXISTING TEAM
 	static async update(req, res, next) {
 		try {
 			const { id } = req.params;
@@ -41,7 +40,7 @@ export class TeamController {
 			next(err);
 		}
 	}
-
+	/// DELETES AN EXISTING TEAM
 	static async destroy(req, res, next) {
 		try {
 			const { id } = req.params;

@@ -2,6 +2,7 @@ import { User } from '../models/userModel.js';
 import { AppError } from '../utilities.js';
 
 export class UserController {
+	/// GETS ALL USERS - currently unused
 	static async index(req, res, next) {
 		try {
 			const data = await User.find();
@@ -10,7 +11,7 @@ export class UserController {
 			next(err);
 		}
 	}
-
+	/// GEST ONE USER
 	static async show(req, res, next) {
 		try {
 			const respObj = await User.findOne(req.user._id);
@@ -19,7 +20,7 @@ export class UserController {
 			next(err);
 		}
 	}
-
+	/// SAVES A NEW USER
 	static async store(req, res, next) {
 		try {
 			const newUser = new User(req.body);
@@ -29,7 +30,7 @@ export class UserController {
 			next(err);
 		}
 	}
-
+	/// UPDATES AN EXISTING USER
 	static async update(req, res, next) {
 		try {
 			const data = await User.findByIdAndUpdate(req.user._id, req.body, {
@@ -40,7 +41,7 @@ export class UserController {
 			next(err);
 		}
 	}
-
+	/// DESTROY AN EXISTING USER - currently unused
 	static async destroy(req, res, next) {
 		try {
 			const { id } = req.params;
