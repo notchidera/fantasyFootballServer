@@ -41,11 +41,10 @@ export class UserController {
 			next(err);
 		}
 	}
-	/// DESTROY AN EXISTING USER - currently unused
+	/// DESTROY AN EXISTING USER - currently used only for testing purposes
 	static async destroy(req, res, next) {
 		try {
-			const { id } = req.params;
-			const resp = await User.findByIdAndDelete(id);
+			const resp = await User.findByIdAndDelete(req.user._id);
 			res.status(200).json(resp);
 		} catch (err) {
 			next(err);

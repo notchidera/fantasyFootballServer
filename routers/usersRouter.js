@@ -18,6 +18,6 @@ router
 	.post(UserController.store)
 	.patch(AuthController.protect, UserController.update);
 
-router.route('/:id').delete(UserController.destroy);
+router.route('/').delete(AuthController.protect, UserController.destroy);
 
 export default router;
