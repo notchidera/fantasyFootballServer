@@ -1,5 +1,5 @@
 import { User } from '../models/userModel.js';
-import { AppError } from '../utilities.js';
+import { AppError } from '../utils/errors.js';
 
 export class UserController {
 	/// GETS ALL USERS - currently unused

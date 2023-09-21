@@ -54,6 +54,15 @@ userSchema.pre('save', async function (next) {
 	next();
 });
 
+/// MIDDLEWARE THAT UPDATES THE PASSWORDCHANGEDAT PROPERTY
+
+userSchema.pre('save', function (next) {
+	if (!this.isModified('password') || this.isNew) return next();
+
+	this.passwordChangedAt = Date.now() - 1000;
+	return next();
+});
+
 /// ADDS AN INSTANCE METHOD THAT CHECKS FOR PASSWORDS EQUALITY
 
 userSchema.methods.correctPassword = async function (

@@ -1,9 +1,10 @@
 import { promisify } from 'util';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/userModel.js';
-import { AppError } from '../utilities.js';
-import { sendEmail } from '../utilities.js';
+import { AppError } from '../utils/errors.js';
+import Email from '../utils/email.js';
 import { frontEndUrl } from '../server.js';
+import crypto from 'crypto';
 /// FUNCTION THAT SIGNS A JWT TOKEN WITH CONFIGURATION INFO TAKEN FROM ENV VARIABLES
 const signToken = (id) => {
 	return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -131,6 +132,8 @@ export class AuthController {
 			return next(err);
 		}
 	}
+
+	/////
 	static async forgotPassword(req, res) {
 		const user = await User.findOne({ email: req.body.email });
 		if (!user)
@@ -146,16 +149,13 @@ export class AuthController {
 		)}/api/users/resetPassword/${resetToken}`;
 
 		const message = `Forgot your password? Submit a patch request with yout new password and passwordConfirm to ${resetURL}`;
+
 		try {
-			await sendEmail({
-				email: user.email,
-				subject: 'Your password reset token (valid for 10 min)',
-				message,
-			});
+			new Email(user, resetURL).sendReset(message);
 
 			res.status(200).json({
 				status: 'success',
-				kessage: 'Token sent to email',
+				message: 'Token sent to email',
 			});
 		} catch (err) {
 			user.passworResetToken = undefined;
@@ -170,5 +170,47 @@ export class AuthController {
 			);
 		}
 	}
-	static async resetPassword(req, res) {}
+	static async resetPassword(req, res, next) {
+		// GET USER BASED ON THE TOKEN
+		const hashedToken = crypto
+			.createHash('sha256')
+			.update(req.params.token)
+			.digest('hex');
+
+		const user = await User.findOne({
+			passwordResetToken: hashedToken,
+			passwordResetExpires: { $gt: Date.now() },
+		});
+
+		//IF TOKEN HAS NOT EXPIRED AND THERE IS A USER, SET THE NEW PASSWORD
+		if (!user) {
+			return next(new AppError('Token is invalid or has expired', 400));
+		}
+		user.password = req.body.password;
+		user.passwordConfirm = req.body.passwordConfirm;
+		user.passworResetToken = undefined;
+		user.passwordResetExpires = undefined;
+		await user.save();
+
+		// LOG THE USER IN, SEND JWT
+		createSendToken(user, 200, res);
+	}
+
+	static async updatePassword(req, res, next) {
+		/// GET THE USER
+		const user = await User.findById(req.user._id).select('+password');
+		/// CHECK IF PASSWORD IS CORRECT
+		if (
+			!(await user.correctPassword(req.body.currentPassword, user.password))
+		) {
+			return next(new AppError('Incorrect password', 401));
+		}
+		/// UPDATE THE PASSWORD
+		user.password = req.body.password;
+		user.passwordConfirm = req.body.passwordConfirm;
+		await user.save();
+
+		/// LOG THE USER IN, SEND JWT
+		createSendToken(user, 200, res);
+	}
 }
