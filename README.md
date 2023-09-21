@@ -53,6 +53,8 @@ The backend (Node + Express) exposes a few endpoints to the client:
 - /api/teams - Handles teams CRUD operations
 - /api/users - Handles both user CRUD and authentication
 
+For the forntend (React - Tailwind for CSS) I've mainly used React Context for state management - There are not a billion of components at the moment, but I'll consider moving to Redux if the app should grow in the future.
+
 The server and the client are in two different repositories.</br>
 Visit this repo in order to access to the **backend code** : <a href="https://github.com/ViRuss0/fantasyFootballServer.git">https://github.com/ViRuss0/fantasyFootballServer.git</a></br>
 Visit this repo in order to access to the **client code** : <a href="https://github.com/ViRuss0/fantasyFootballClient.git">https://github.com/ViRuss0/fantasyFootballClient.git</a></br>
