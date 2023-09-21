@@ -1,4 +1,4 @@
- <h1>Fantasy Football Team Builder</h1>
+<h1>Fantasy Football Team Builder</h1>
 
 ---
 
@@ -13,7 +13,7 @@ Visit this repo in order to access to the **client code** : <a href="https://git
 
 ---
 
-<p>Are you a fantasy football addicted? Have you ever feel like you're unprepared for the fantasy football auction? You know most of the players, you have some valid options in your mind, but can't manage your budget properly? </br> Well, I've felt like several times, so I felt the need to have a support that I can use to get ready for the auction</p>
+<p>Are you a fantasy football addicted? Do you ever feel like you're unprepared for the fantasy football auction? You know most of the players, you have some valid options in your mind, but can't manage your budget properly? </br> Well, I've felt like several times, so I felt the need to have a support that I can use to get ready for the auction</p>
 
 <p>Will, this alone, turn you into the champion of your league? Not exactly, but it can help you organize your thoughts and make some useful considerations</p>
 
@@ -39,6 +39,8 @@ Visit this repo in order to access to the **client code** : <a href="https://git
   <li>Set a custom budget and number of human players - the price prediction will change according with the new budget, the rank (slot) of the players will change according to the number of human players (default values - Budget: 500, Players: 10)</li>
   <li>Create one or more draft teams that can help you handling your budget</li>
 </ul>
+
+---
 
 <h2>How the project is structured</h2>
 
