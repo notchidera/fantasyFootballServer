@@ -9,7 +9,7 @@ import playersRouter from './routers/playersRouter.js';
 import usersRouter from './routers/usersRouter.js';
 import teamsRouter from './routers/teamsRouter.js';
 import { AppError } from './utils/errors.js';
-import { ErrorController } from './controllers/errorController copy.js';
+import { ErrController } from './controllers/errController.js';
 import connectDb from './config/db.js';
 import cookieParser from 'cookie-parser';
 
@@ -53,7 +53,7 @@ app.all('*', (req, res, next) => {
 	next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });
 /// GLOBAL ERRORHANDLER MIDDLEWARE
-app.use(ErrorController.globalErrorHandler);
+app.use(ErrController.globalErrorHandler);
 
 app.listen(process.env.PORT);
 
