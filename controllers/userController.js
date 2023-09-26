@@ -41,7 +41,7 @@ export class UserController {
 			next(err);
 		}
 	}
-	/// DESTROY AN EXISTING USER - currently used only for testing purposes
+	/// DESTROY AN EXISTING USER -- currently used only for testing purposes
 	static async destroy(req, res, next) {
 		try {
 			const resp = await User.findByIdAndDelete(req.user._id);

@@ -19,7 +19,7 @@ export class PlayerController {
 					userId: req.user._id,
 					Id: player.Id,
 				});
-				/// IF THE PLAYER DOESN'T EXIST, IT CREATES A NEW ONE, SETTING ALL THE PROPERTIES. PRICEPREDICTION IS SAVED AS AN ABSOLUTE VALUE, USER ID IS ALSO SAVD
+				/// IF THE PLAYER DOESN'T EXIST, IT CREATES A NEW ONE, SETTING ALL THE PROPERTIES. PRICEPREDICTION IS SAVED AS AN ABSOLUTE VALUE, USER ID IS ALSO SAVED
 				if (!oldPlayer)
 					await Player.create({
 						name: player.Nome,

@@ -20,7 +20,7 @@ export class TeamController {
 			next(err);
 		}
 	}
-	/// SAVES A NEW TEAM
+	/// SAVES A NEW TEAM _
 	static async store(req, res, next) {
 		try {
 			const newTeam = new Team({ ...req.body, userId: req.user._id });
