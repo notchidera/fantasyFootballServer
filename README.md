@@ -78,7 +78,8 @@ There is also a **test user that you can use** to test the app:
 In order to make it run, you should:
 <ul>
   <li>get both the backend and the frontend code</li>
-  <li>create a new MongoDB server and get the URI code for connection (I've used Atlas)</li>
+  <li>On the server, install nodemon (a global installation is preferred) <code>npm i nodemon -g</code></li>
+<li>install Docker for your OS via the official website OR create a new MongoDB server and get the URI code for connection (I've used Atlas) in case you want full control over your dev DB or want to work in a production enviroment</li>
   <li>add a config.env in the server root folder (you can find a config_example.env file in the root folder as a template) -  it should hold the following eviroment variables:
     <ul>
       <li> DBURL (here you should put the URI code to connect the server to your DB)</li> 
@@ -87,15 +88,33 @@ In order to make it run, you should:
       <li>JWT_SECRET (used to encode JWT tokens)</li>
       <li>JWT_EXPIRES_IN (set JWT token expiration date)</li>
       <li>JWT_COOKIE_EXPIRES_IN (set JWT HttOnly cookie expiration date)</li>
-      <li>NODE_ENV (should be set to "development" while testing the app locally</li>     
+      <li>NODE_ENV</li>     
     </ul></li>
   <li>install all the dependencies both on the server and on the client</li>
 </ul>
 
-<h4>In dev enviroment</h4>
-Just run:
+<h4>Running DB via Docker container</h4>
+
+On MacOS or Linux (and some Windows users), run:
+
 <ul>
-  <li><code>nodemon server.js</code> (or node server.js) on the server</li>
+  <li><code>npm run start:container</code> to start a new Mongo DB container - <b>In case you're having issues, the first time you might need to run <code>npm run init:container</code></b></li>
+  <li><code>npm run start:dev</code> to run the server</li>
+  <li><code>npm start</code> on the client</li>
+</ul>
+
+On Windows, run:
+
+<ul>
+  <li><code>npm run start:container-w</code> to start a new Mongo DB container - <b>In case you're having issues, the first time you might need to run <code>npm run init:container</code></b></li>
+  <li><code>npm run start:dev-w</code> to run the server</li>
+  <li><code>npm start</code> on the client</li>
+</ul>
+
+If you want to use your own DB via Atlas, run:
+
+<ul>
+  <li><code>npm run start:test</code> (or <code>npm run start:test-w</code> on Windows) on the server</li>
   <li><code>npm start</code> on the client</li>
 </ul>
 

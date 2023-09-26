@@ -4,11 +4,15 @@
 	"description": "",
 	"main": "server.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
 		"start:test": "NODE_ENV=test nodemon server.js",
 		"start:production": "NODE_ENV=production nodemon server.js",
 		"start:container": "docker stop mongo || true && docker rm mongo || true && docker run -d -p 27017:27017 --name mongo mongo:latest",
-		"start:dev": "NODE_ENV=development nodemon server.js"
+		"init-container": "docker run -d -p 27017:27017 --name mongo mongo:latest",
+		"start:dev": "NODE_ENV=development nodemon server.js",
+		"start:container-w": "docker stop mongo  && docker rm mongo && docker run -d -p 27017:27017 --name mongo mongo:latest",
+		"start:dev-w": "set NODE_ENV=development && nodemon server.js",
+		"start:production-w": "set NODE_ENV=production && nodemon server.js",
+		"start:test-w": "set NODE_ENV=test && nodemon server.js"
 	},
 	"type": "module",
 	"author": "",
