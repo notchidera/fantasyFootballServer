@@ -9,7 +9,7 @@ import playersRouter from './routers/playersRouter.js';
 import usersRouter from './routers/usersRouter.js';
 import teamsRouter from './routers/teamsRouter.js';
 import { AppError } from './utils/errors.js';
-import { ErrorController } from './controllers/errorController.js';
+import { ErrorController } from './controllers/ErrorController.js';
 import connectDb from './config/db.js';
 import cookieParser from 'cookie-parser';
 
