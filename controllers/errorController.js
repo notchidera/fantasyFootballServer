@@ -1,4 +1,4 @@
-export class ErrorController {
+class ErrorController {
 	/// GLOBAL MIDDLWARE, IF AN ERROR IS PASSED BY A MIDDLEWARE, THIS MIDDLEWARE SENDS IT TO THE CLIENT WITH SOME INFO (IF PROVIDED)
 	static globalErrorHandler = (err, req, res, next) => {
 		err.statusCode = err.statusCode || 500;
@@ -10,3 +10,5 @@ export class ErrorController {
 		});
 	};
 }
+
+export default ErrorController;
