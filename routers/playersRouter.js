@@ -1,6 +1,6 @@
 import express from 'express';
 import { PlayerController } from '../controllers/PlayerController.js';
-import { AuthController } from '../controllers/AuthController.js';
+import { AuthController } from '../controllers/authController.js';
 //
 const router = express.Router();
 
