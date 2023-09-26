@@ -59,13 +59,15 @@ The server and the client are in two different repositories.</br>
 Visit this repo in order to access to the **backend code** : <a href="https://github.com/ViRuss0/fantasyFootballServer.git">https://github.com/ViRuss0/fantasyFootballServer.git</a></br>
 Visit this repo in order to access to the **client code** : <a href="https://github.com/ViRuss0/fantasyFootballClient.git">https://github.com/ViRuss0/fantasyFootballClient.git</a></br>
 
+---
+
 <h2>How to run the project</h2> 
 <h3>Quick access</h3>
 
 There is an **already running app**, hosted on Render (it's not superfast due to the hosting plan, but it does its job): <a href="https://fantasquadbuilder.onrender.com/" target="_blank">https://fantasquadbuilder.onrender.com/</a>.
 I suggest using that App if you want to play around.
 
-There is also a **test user that you can use** to test the app (it works both on dev and production eviroments):
+There is also a **test user that you can use** to test the app:
 
 <ul>
 <li>testuser@gmail.com</li>
@@ -77,7 +79,7 @@ In order to make it run, you should:
 <ul>
   <li>get both the backend and the frontend code</li>
   <li>create a new MongoDB server and get the URI code for connection (I've used Atlas)</li>
-  <li>add a config.env in the server root folder - it should hold the following eviroment variables:
+  <li>add a config.env in the server root folder (you can find a config_example.env file in the root folder as a template) -  it should hold the following eviroment variables:
     <ul>
       <li> DBURL (here you should put the URI code to connect the server to your DB)</li> 
       <li>PASSWORD (used to store db connection password)</li>

@@ -23,8 +23,8 @@ export class PlayerController {
 				if (!oldPlayer)
 					await Player.create({
 						name: player.Nome,
-						initialQuote: player['Qt.I'],
-						currentQuote: player['Qt.A'],
+						initialQuote: player.initialQuote,
+						currentQuote: player.currentQuote,
 						value: player.FVM,
 						Id: player.Id,
 						position: player.R,

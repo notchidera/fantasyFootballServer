@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const playerSchema = new mongoose.Schema(
 	{
 		name: { type: String, required: true },
-		initialQuote: { type: Number, required: true },
+		initialQuote: Number,
 		currentQuote: Number,
 		value: { type: Number, required: true },
 		Id: { type: Number, required: true },
