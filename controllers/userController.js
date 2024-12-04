@@ -23,7 +23,8 @@ export class UserController {
 	/// SAVES A NEW USER
 	static async store(req, res, next) {
 		try {
-			const newUser = new User(req.body);
+			const { email, password, budget } = req.body; // Include budget field
+			const newUser = new User({ email, password, budget });
 			const data = await newUser.save();
 			res.status(201).json({ data, status: 'ok' });
 		} catch (err) {

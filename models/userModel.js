@@ -3,41 +3,38 @@ import validator from 'validator';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import { isValidPassword } from 'mongoose-custom-validators';
+
 const userSchema = new mongoose.Schema(
 	{
 		email: {
 			type: String,
-			required: [true, 'Occorre inserire un indirizzo email'],
-			unique: [true, 'Indirizzo email già esistente'],
+			required: [true, 'Please provide an email address'],
+			unique: [true, 'Email address already exists'],
 			lowercase: true,
-			validate: [
-				validator.isEmail,
-				'Occorre inserire un indirizzo email valido',
-			],
+			validate: [validator.isEmail, 'Please provide a valid email address'],
 		},
 		password: {
 			type: String,
-			required: [true, 'Occorre inserire una password'],
-			minlength: [10, 'La password deve contenere almeno 10 caratteri'],
+			required: [true, 'Please provide a password'],
+			minlength: [10, 'Password must be at least 10 characters long'],
 			select: false,
 			validate: {
 				validator: isValidPassword,
-				message:
-					'La tua password deve avere almeno: 1 lettera maiuscola, 1 lettera minuscola, 1 numero e un carattere speciale',
+				message: 'Password must include uppercase, lowercase, numbers, and special characters',
 			},
 		},
 		passwordConfirm: {
 			type: String,
-			required: [true, 'Per favore conferma la tua password'],
+			required: [true, 'Please confirm your password'],
 			validate: {
 				validator: function (el) {
 					return el === this.password;
 				},
-				message: 'Le due password devono essere identiche',
+				message: 'Passwords must match',
 			},
 		},
-		budget: { type: Number, default: 500 },
-		players: { type: Number, default: 10 },
+		budget: { type: Number, default: 10000 }, // Updated default budget
+		userScore: { type: Number, default: 0 }, // Tracks cumulative points across leagues
 		passwordChangedAt: Date,
 		passwordResetToken: String,
 		passwordResetExpires: Date,
@@ -45,8 +42,7 @@ const userSchema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
-/// Only run this function if password has been modified
-
+// Middleware to hash password before saving
 userSchema.pre('save', async function (next) {
 	if (!this.isModified('password')) return next();
 	this.password = await bcrypt.hash(this.password, 12);
@@ -54,8 +50,7 @@ userSchema.pre('save', async function (next) {
 	next();
 });
 
-/// MIDDLEWARE THAT UPDATES THE PASSWORDCHANGEDAT PROPERTY
-
+// Middleware to update passwordChangedAt property
 userSchema.pre('save', function (next) {
 	if (!this.isModified('password') || this.isNew) return next();
 
@@ -63,8 +58,7 @@ userSchema.pre('save', function (next) {
 	return next();
 });
 
-/// ADDS AN INSTANCE METHOD THAT CHECKS FOR PASSWORDS EQUALITY
-
+// Method to check password correctness
 userSchema.methods.correctPassword = async function (
 	candidatePassword,
 	userPassword
@@ -72,7 +66,7 @@ userSchema.methods.correctPassword = async function (
 	return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-/// ADDS AN INSTANCE METHOD THAT CHECKS IF PASSWORD HAS BEEN CHANGED SINCE THE TOKEN HAS BEEN ISSUED
+// Method to check if password has changed since token issue
 userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
 	if (this.passwordChangedAt) {
 		const changedTimestamp = parseInt(
@@ -81,10 +75,10 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
 		);
 		return JWTTimestamp < changedTimestamp;
 	}
-
 	return false;
 };
 
+// Method to create a password reset token
 userSchema.methods.createPasswordResetToken = function () {
 	const resetToken = crypto.randomBytes(32).toString('hex');
 	this.passwordResetToken = crypto
